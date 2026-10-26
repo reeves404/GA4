@@ -1,0 +1,36 @@
+
+❯ <ide_opened_file>The user opened the file
+  /fs/ess/PAS3493/people/reeves404/GA4/scripts/trimgalore.sh in the IDE. This
+  may or may not be related to the current task.</ide_opened_file>
+
+❯ Review this shell script. List 5 most important problems or improvements,
+  most important first with a one sentence reason for each. Do not change it
+  yet
+
+  Read 1 file (ctrl+o to expand)
+
+● Here are the top 5 problems, most important first:
+
+  1. The container uses docker:// instead of an oras:// Seqera Containers URL
+     (trimgalore.sh:10 (scripts/trimgalore.sh#L10)). This breaks the project
+     convention, and Apptainer has to convert the Docker image each time the
+     script runs, which is slow and uses up cache space.
+  2. The output dir is never created with mkdir -p. The convention requires it
+     before writing, so the script doesn't depend on Trim Galore's own handling
+     of a missing dir.
+  3. No progress or provenance reporting. The start doesn't report the script
+     name, date or all inputs (the output dir is missing), and the end doesn't
+     report the Trim Galore version, a success message or the date. That makes
+     the SLURM logs hard to audit.
+  4. No purpose/usage comment block and no argument check. If an argument is
+     missing, set -u only gives a cryptic "unbound variable" error rather than
+     telling the user how to call the script.
+  5. Variable naming is reversed (trimgalore.sh:4-5
+     (scripts/trimgalore.sh#L4-L5)). The arguments use uppercase (R1_FASTQ), but
+     the convention reserves uppercase for constants like CONTAINER, which
+     should hold the hard-coded container URL. Lowercase names like fastq_r1
+     should be used for arguments.
+
+  A minor one: the line break between --output_dir and "$out_dir"
+  (trimgalore.sh:11-12 (scripts/trimgalore.sh#L11-L12)) makes it hard to see
+  which value goes with that option.

@@ -1,0 +1,27 @@
+
+❯ <ide_opened_file>The user opened the file
+  /fs/ess/PAS3493/people/reeves404/GA4/scripts/trimgalore.sh in the IDE. This
+  may or may not be related to the current task.</ide_opened_file>
+
+❯ Review this shell script. List 5 most important problems or improvements,
+  most important first with a one sentence reason for each. Do not change it
+  yet
+
+  Read 1 file (ctrl+o to expand)
+
+● Top 5 issues, most important first:
+
+  1. No mkdir -p "$out_dir" — if the output dir doesn't exist, Trim Galore will
+     fail; CLAUDE.md requires creating output dirs before writing.
+  2. Uses docker:// instead of oras:// — project convention is to pull
+     containers via Seqera's oras:// URLs, not Docker Hub references.
+  3. Variable naming inconsistent with convention — R1_FASTQ/R2_FASTQ are
+     uppercase but are copied arguments, not constants; should be lowercase per
+     CLAUDE.md.
+  4. Missing required header/reporting — no purpose/usage comment block, no
+     date/inputs reported at start, and no program version/success message/date
+     reported at end.
+  5. No multi-threading flags used (good), but also no -j/thread guard needed —
+     minor: could instead flag that --fastqc runs an extra FastQC pass that
+     duplicates a separate results/fastqc step if one exists, worth confirming
+     it's not redundant.
